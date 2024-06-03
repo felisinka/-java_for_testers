@@ -1,12 +1,6 @@
 package ru.stqa.geometry.figures;
 
-public class Square {
-
-    double side;
-
-    public Square(double side) {
-        this.side=side;
-    }
+public record Square (double side){
 
     public static void printSquarePerimeter(Square s){
         String text = String.format("Периметр квадрата со стороной %f равен %f", s.side, s.perimeter());

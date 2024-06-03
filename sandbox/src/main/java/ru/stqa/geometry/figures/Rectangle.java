@@ -1,16 +1,6 @@
 package ru.stqa.geometry.figures;
 
-public class Rectangle {
-
-    double sideA;
-    double sideB;
-
-    public Rectangle(double sideA, double sideB) {
-
-        this.sideA=sideA;
-        this.sideB=sideB;
-
-    }
+public record Rectangle (double sideA, double sideB) {
 
     public static void printRectanglePerimeter(Rectangle r){
         String text = String.format("Периметр прямоугольника со сторонами %f и %f равен %f",
