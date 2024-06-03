@@ -2,25 +2,36 @@ package ru.stqa.geometry.figures;
 
 public class Triangle {
 
-    public static void printTrianglePerimeter(double a,double b,double c){
+    double sideA;
+    double sideB;
+    double sideC;
+
+    public Triangle(double sideA, double sideB, double sideC) {
+        this.sideA=sideA;
+        this.sideB=sideB;
+        this.sideC=sideC;
+    }
+
+    public static void printTrianglePerimeter(Triangle t){
         String text = String.format("Периметр треугольника со сторонами %f, %f, %f равен %f",
-                a, b, c, perimeter(a, b, c));
+                t.sideA,t.sideB,t.sideC, t.perimeter());
         System.out.println(text);
 
     }
 
-    public static double perimeter(double a, double b, double c) {
-        return a + b + c;
-    }
-
-    public static void printTriangleArea(double a,double b,double c){
-        String text = String.format("Площадь треугольника со сторонами %f, %f и %f равна %f",a,b,c, area(a, b, c));
+    public static void printTriangleArea(Triangle t){
+        String text = String.format("Площадь треугольника со сторонами %f, %f и %f равна %f",
+                t.sideA,t.sideB,t.sideC, t.area());
         System.out.println(text);
 
     }
 
-    public static double area(double a, double b, double c) {
-        var p = perimeter(a,b,c)/2;
-        return java.lang.Math.sqrt(p*(p-a)*(p-b)*(p-c));
+    public double area() {
+        var p = this.perimeter()/2;
+        return java.lang.Math.sqrt(p*(p-this.sideA)*(p-this.sideB)*(p-this.sideC));
+    }
+
+    public double perimeter() {
+        return this.sideA + this.sideB + this.sideC;
     }
 }

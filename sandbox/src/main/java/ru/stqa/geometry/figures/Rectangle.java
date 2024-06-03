@@ -1,23 +1,37 @@
 package ru.stqa.geometry.figures;
 
 public class Rectangle {
-    public static void printRectanglePerimeter(double a,double b){
-        String text = String.format("Периметр прямоугольника со сторонами %f и %f равен %f", a,b,perimeter(a, b));
+
+    double sideA;
+    double sideB;
+
+    public Rectangle(double sideA, double sideB) {
+
+        this.sideA=sideA;
+        this.sideB=sideB;
+
+    }
+
+    public static void printRectanglePerimeter(Rectangle r){
+        String text = String.format("Периметр прямоугольника со сторонами %f и %f равен %f",
+                r.sideA,r.sideB,r.perimeter());
         System.out.println(text);
 
     }
 
-    public static double perimeter(double a, double b) {
-        return 2*(a + b);
-    }
 
-    public static void printRectangleArea(double a,double b){
-        String text = String.format("Площадь прямоугольника со сторонами %f и %f равна %f",a,b,area(a, b));
+    public static void printRectangleArea(Rectangle r){
+        String text = String.format("Площадь прямоугольника со сторонами %f и %f равна %f",
+                r.sideA,r.sideB,r.area());
         System.out.println(text);
 
     }
 
-    public static double area(double a, double b) {
-        return a*b;
+    public double area() {
+        return this.sideA*this.sideB;
+    }
+
+    public double perimeter() {
+        return 2* (this.sideA+this.sideB);
     }
 }

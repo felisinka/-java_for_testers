@@ -7,12 +7,16 @@ public class RectangleTests {
 
     @Test
     void canCalculateArea(){
-        Assertions.assertEquals(60.0, Rectangle.area(10,6));
-        Assertions.assertEquals(12.0, Rectangle.area(3,4));
+        var r = new Rectangle(10,6);
+        Assertions.assertEquals(60.0, r.area());
+        r = new Rectangle(3,4);
+        Assertions.assertEquals(12.0, r.area());
     }
     @Test
     void canCalculatePerimeter(){
-        Assertions.assertEquals(32.0, Rectangle.perimeter(10,6));
-        Assertions.assertEquals(14.0, Rectangle.perimeter(3,4));
+        var r = new Rectangle(10,6);
+        Assertions.assertEquals(32.0, r.perimeter());
+        r = new Rectangle(3,4);
+        Assertions.assertEquals(14.0, r.perimeter());
     }
 }
