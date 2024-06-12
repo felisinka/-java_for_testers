@@ -20,5 +20,49 @@ public class TriangleTests {
             Assertions.assertEquals(12.0, t.perimeter());
         }
 
+        @Test
+        void cannotCreateTriangleWithNegativeSideA(){
+           try {
+               new Triangle(-5, 1, 3);
+               Assertions.fail();
+           }
+           catch (IllegalArgumentException exception){
+               //ok
+           }
+        }
+
+        @Test
+        void cannotCreateTriangleWithNegativeSideB(){
+            try {
+            new Triangle(5, -1,3);
+            Assertions.fail();
+            }
+            catch (IllegalArgumentException exception){
+                //ok
+            }
+        }
+
+        @Test
+        void cannotCreateTriangleWithNegativeSideC(){
+            try {
+            new Triangle(5, 1,-3);
+            Assertions.fail();
+            }
+            catch (IllegalArgumentException exception){
+                //ok
+            }
+        }
+
+    @Test
+    void cannotCreateTriangleWithBrokenSideInequality(){
+        try {
+            new Triangle(5, 1,3);
+            Assertions.fail();
+        }
+        catch (IllegalArgumentException exception){
+            //ok
+        }
+    }
+
     }
 

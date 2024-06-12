@@ -2,7 +2,13 @@ package ru.stqa.geometry.figures;
 
 public record Triangle (double sideA,double sideB,double sideC){
 
+public Triangle {
+    if (sideA<0||sideB<0||sideC<0||sideA+sideB<sideC||sideA+sideC<sideB||sideB+sideC<sideA) {
+      throw new IllegalArgumentException("Triangle side should be non-negative");
+    }
 
+
+}
     public static void printTrianglePerimeter(Triangle t){
         String text = String.format("Периметр треугольника со сторонами %f, %f, %f равен %f",
                 t.sideA,t.sideB,t.sideC, t.perimeter());
