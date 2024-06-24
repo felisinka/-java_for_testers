@@ -29,11 +29,11 @@ public record Triangle (double sideA, double sideB, double sideC){
     }
 
     public Triangle {
-    if (sideA<0||sideB<0||sideC<0||sideA+sideB<sideC||sideA+sideC<sideB||sideB+sideC<sideA) {
-      throw new IllegalArgumentException("Triangle side should be non-negative");
+    if (sideA<0||sideB<0||sideC<0) {
+      throw new IllegalArgumentException("Triangle side should be non-negative");}
+      else if (sideA+sideB<sideC||sideA+sideC<sideB||sideB+sideC<sideA) {
+            throw new IllegalArgumentException("The sum of any two sides of a triangle must be more than the third side");
     }
-
-
 }
     public static void printTrianglePerimeter(Triangle t){
         String text = String.format("Периметр треугольника со сторонами %f, %f, %f равен %f",
