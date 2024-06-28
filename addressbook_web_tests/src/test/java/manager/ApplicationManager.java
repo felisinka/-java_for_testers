@@ -14,6 +14,7 @@ public class ApplicationManager {
     protected WebDriver driver;
     private LoginHelper session;
     private GroupHelper groups;
+    private ContactHelper contacts;
 
 public LoginHelper session(){
     if (session == null){
@@ -27,6 +28,13 @@ public GroupHelper groups(){
         groups = new GroupHelper(this);
     }
     return groups;
+}
+
+public ContactHelper contacts(){
+    if (contacts == null){
+        contacts = new ContactHelper(this);
+    }
+    return contacts;
 }
 
     public void init(String browser) {
