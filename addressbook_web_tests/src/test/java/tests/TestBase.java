@@ -13,7 +13,7 @@ public class TestBase {
             app = new ApplicationManager();
         }
        // app.init("chrome");
-        app.init(System.getProperty("browser","firefox"));
+        app.init(System.getProperty("browser","chrome"));
 
     }
 
