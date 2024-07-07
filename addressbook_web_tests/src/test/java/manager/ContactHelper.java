@@ -1,7 +1,6 @@
 package manager;
 
 import model.ContactData;
-import model.GroupData;
 import org.openqa.selenium.By;
 
 import java.util.ArrayList;
@@ -77,20 +76,18 @@ public class ContactHelper extends HelperBase{
 
     public List<ContactData> getList() {
         var contacts = new ArrayList<ContactData>();
-        var rows = manager.driver.findElements(By.xpath("//tr"));
-        for (var row : rows){
-            if (row.getAttribute("name")!=null&&row.getAttribute("name").equals("entry")) {
-                var lastName = row.findElement(By.xpath("//td[2]")).getText();
-                ;
-                var firstName = row.findElement(By.xpath("//td[3]")).getText();
-                var checkbox = row.findElement(By.name("selected[]"));
-                var id = checkbox.getAttribute("value");
-                contacts.add(new ContactData()
+        var rows = manager.driver.findElements(By.xpath("//tr[@name=\"entry\"]"));
+      for (int i=0;i< rows.size();i++){
+         var lastName = manager.driver.findElement(By.xpath("//*[@id=\"maintable\"]/tbody/tr["+(i+2)+"]/td[2]")).getText();
+          var firstName = manager.driver.findElement(By.xpath("//*[@id=\"maintable\"]/tbody/tr["+(i+2)+"]/td[3]")).getText();
+          var checkbox = rows.get(i).findElement(By.name("selected[]"));
+          var id = checkbox.getAttribute("value");
+
+          contacts.add(new ContactData().withFirstName(firstName)
                         .withId(id)
-                        .withFirstName(firstName)
-                        .withLastName(lastName));
-            }
-        }
+                        .withLastName(lastName)
+                );
+       }
         return contacts;
     }
 
