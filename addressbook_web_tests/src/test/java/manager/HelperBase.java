@@ -9,10 +9,10 @@ public class HelperBase {
         this.manager = manager;
     }
 
-    protected void type(By locator, String group) {
+    protected void type(By locator, String contact) {
         click(locator);
         manager.driver.findElement(locator).clear();
-        manager.driver.findElement(locator).sendKeys(group);
+        manager.driver.findElement(locator).sendKeys(contact);
     }
 
     protected void click(By locator) {

@@ -1,6 +1,7 @@
 package manager;
 
 import model.ContactData;
+import model.GroupData;
 import org.openqa.selenium.By;
 
 import java.util.ArrayList;
@@ -89,6 +90,22 @@ public class ContactHelper extends HelperBase{
                 );
        }
         return contacts;
+    }
+
+    public void modifyContact(ContactData initialContact, ContactData modifiedContact) {
+        initContactModification(initialContact);
+        fillContactForm(modifiedContact);
+        submitContactModification();
+        returnToHomePage();
+    }
+
+    private void initContactModification(ContactData contact) {
+        click(By.xpath(String.format("//input[@value='%s']/../following-sibling::td[./a][2]" ,contact.id())));
+
+    }
+
+    private void submitContactModification() {
+        click(By.cssSelector("input:nth-child(74)"));
     }
 
 }
