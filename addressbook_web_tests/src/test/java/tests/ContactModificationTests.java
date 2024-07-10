@@ -2,7 +2,6 @@ package tests;
 
 import model.ContactData;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -17,7 +16,7 @@ public class ContactModificationTests extends TestBase{
         var result = new ArrayList<ContactData>();
         result.add(new ContactData("", "first name for modification",
                 "last name for modification", "address for modification", "email for modification",
-                "homePhone for modification"));
+                "homePhone for modification", ""));
 
      /*   for (int i=1;i<5;i++){
             result.add(new ContactData("", randomString(i*10), randomString(i*10), randomString(i*10), randomString(i*10), randomString(i*10)));
