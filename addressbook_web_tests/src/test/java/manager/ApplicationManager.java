@@ -10,11 +10,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.GeckoDriverService;
 
+import java.util.Properties;
+
 public class ApplicationManager {
     protected WebDriver driver;
     private LoginHelper session;
     private GroupHelper groups;
     private ContactHelper contacts;
+    private Properties properties;
 
 public LoginHelper session(){
     if (session == null){
@@ -37,8 +40,9 @@ public ContactHelper contacts(){
     return contacts;
 }
 
-    public void init(String browser) {
-        if (driver == null) {
+    public void init(String browser, Properties properties) {
+    this.properties = properties;
+    if (driver == null) {
             if ("chrome".equals(browser)) {
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--remote-debugging-port=9222");
@@ -60,8 +64,8 @@ public ContactHelper contacts(){
             }
             Runtime.getRuntime().addShutdownHook(new Thread(driver::quit));
             //firefox driver works only with url to index.php. otherwise failed with Unable to locate element: *[name='user']
-            driver.get("http://localhost/addressbook/index.php");
-            session().login("admin", "secret");
+            driver.get(properties.getProperty("web.baseUrl"));
+            session().login(properties.getProperty("web.username"), properties.getProperty("web.password"));
         }
     }
 
