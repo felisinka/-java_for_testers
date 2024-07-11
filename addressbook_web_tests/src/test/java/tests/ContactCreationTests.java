@@ -1,11 +1,16 @@
 package tests;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import common.CommonFunctions;
 import model.ContactData;
+import model.GroupData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -13,7 +18,7 @@ import java.util.List;
 
 public class ContactCreationTests extends TestBase{
 
-  public static List<ContactData> contactProvider() {
+  public static List<ContactData> contactProvider() throws IOException {
     var result = new ArrayList<ContactData>();
   /*  for (var name: List.of("","contact name")) {
       for (var lastName : List.of("","contact last name")) {
@@ -26,9 +31,9 @@ public class ContactCreationTests extends TestBase{
         }
       }
     }*/
-    for (int i=1;i<5;i++){
-      result.add(new ContactData("", CommonFunctions.randomString(i*10), CommonFunctions.randomString(i*10), CommonFunctions.randomString(i*10), CommonFunctions.randomString(i*10), CommonFunctions.randomString(i*10), randomFile("src/test/resources/images/")));
-    }
+    ObjectMapper mapper = new ObjectMapper();
+    var value = mapper.readValue(new File("contacts.json"),  new TypeReference<List<ContactData>>() { } );
+    result.addAll(value);
     return result;
   }
 
