@@ -35,23 +35,39 @@ public class GroupCreationTest extends TestBase {
         return result;
     }
 
+    public static List<GroupData> singleRandomGroup() throws IOException {
+        return List.of(new GroupData()
+                .withName(CommonFunctions.randomString(10))
+                .withHeader(CommonFunctions.randomString(10))
+                .withFooter(CommonFunctions.randomString(10)));
+    }
 
-    @ParameterizedTest
-    @MethodSource("groupProvider")
-    public void canCreateMultipleGroups(GroupData group) {
-        var oldGroups = app.groups().getList();
+
+        @ParameterizedTest
+    @MethodSource("singleRandomGroup")
+    public void canCreateGroup(GroupData group) {
+        var oldGroups = app.hbm().getGroupList();
         app.groups().createGroup(group);
-        var newGroups = app.groups().getList();
+        var newGroups = app.hbm().getGroupList();
 
         Comparator<GroupData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
         newGroups.sort(compareById);
+        var maxId = newGroups.get(newGroups.size()-1).id();
 
         var expectedList = new ArrayList<>(oldGroups);
-        expectedList.add(group.withId(newGroups.get(newGroups.size()-1).id()).withHeader("").withFooter(""));
+        expectedList.add(group.withId(maxId));
         expectedList.sort(compareById);
         Assertions.assertEquals(newGroups, expectedList);
+
+       /* var newUIGroups = app.groups().getList();
+        newUIGroups.sort(compareById);
+        var maxUIId = newUIGroups.get(newUIGroups.size()-1).id();
+        var expectedUIList = new ArrayList<>(oldGroups);
+        expectedUIList.add(group.withId(maxUIId).withHeader("").withFooter(""));
+        expectedUIList.sort(compareById);
+        Assertions.assertEquals(newUIGroups, expectedUIList);*/
     }
 
     public static List<GroupData> negativeGroupProvider() {
