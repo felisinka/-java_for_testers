@@ -12,15 +12,15 @@ public class GroupRemovalTests extends TestBase {
 
     @Test
     public void canRemoveGroup() {
-         if (app.groups().getCount()==0) {
-            app.groups().createGroup(new GroupData("", "kate group", "kate group header", "kate group footer"));
+         if (app.hbm().getGroupCount()==0) {
+            app.hbm().createGroup(new GroupData("", "kate group", "kate group header", "kate group footer"));
         }
-        var oldGroups = app.groups().getList();
+        var oldGroups = app.hbm().getGroupList();
          var rnd = new Random();
          var index = rnd.nextInt(oldGroups.size());
          var group = oldGroups.get(index);
         app.groups().removeGroup(group);
-        var newGroups = app.groups().getList();
+        var newGroups = app.hbm().getGroupList();
         var expectedList = new ArrayList<>(oldGroups);
         expectedList.remove(index);
         Assertions.assertEquals(newGroups, expectedList);
@@ -28,11 +28,11 @@ public class GroupRemovalTests extends TestBase {
 
     @Test
     public void canRemoveAllGroupsAtOnce(){
-        if (app.groups().getCount()==0) {
-            app.groups().createGroup(new GroupData("", "kate group", "kate group header", "kate group footer"));
+        if (app.hbm().getGroupCount()==0) {
+            app.hbm().createGroup(new GroupData("", "kate group", "kate group header", "kate group footer"));
         }
         app.groups().removeAllGroups();
-        Assertions.assertEquals(0,app.groups().getCount());
+        Assertions.assertEquals(0,app.hbm().getGroupCount());
     }
 
 }
