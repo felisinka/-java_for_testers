@@ -1,6 +1,7 @@
 package tests;
 
 import manager.ApplicationManager;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.io.FileNotFoundException;
@@ -22,6 +23,11 @@ public class TestBase {
         properties.load(new FileReader(System.getProperty("target","local.properties")));
         app.init(System.getProperty("browser","chrome"),properties);
 
+    }
+
+    @AfterEach
+    void checkDatabaseConsistency(){
+        app.jdbc().checkConsistency();
     }
 
 }

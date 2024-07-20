@@ -6,6 +6,7 @@ import common.CommonFunctions;
 import model.ContactData;
 import model.GroupData;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -40,9 +41,9 @@ public class ContactCreationTests extends TestBase{
   @ParameterizedTest
   @MethodSource("contactProvider")
   public void canCreateMultipleContacts(ContactData contact) {
-    var oldContacts = app.contacts().getList();
+    var oldContacts = app.hbm().getContactList();//contacts().getList();
     app.contacts().createContact(contact);
-    var newContacts = app.contacts().getList();
+    var newContacts = app.hbm().getContactList();//contacts().getList();
 
     Comparator<ContactData> compareById = (o1, o2) -> {
       return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
@@ -51,11 +52,36 @@ public class ContactCreationTests extends TestBase{
 
     var expectedList = new ArrayList<>(oldContacts);
     var id = newContacts.get(newContacts.size()-1).id();
-    expectedList.add(contact.withId(newContacts.get(newContacts.size()-1).id())
-            .withHomePhone("").withAddress("").withEmail("").withPhoto(""));
+    expectedList.add(contact.withId(id)
+            .withPhoto(""));
     expectedList.sort(compareById);
 
     Assertions.assertEquals(expectedList,newContacts);
+
+  }
+
+  @ParameterizedTest
+  @MethodSource("contactProvider")
+  public void canCreateContactInGroup(ContactData contact) {
+    if (app.hbm().getGroupCount()==0) {
+      app.hbm().createGroup(new GroupData("", "kate group", "kate group header", "kate group footer"));
+    }
+    var group = app.hbm().getGroupList().get(0);
+    var oldRelated = app.hbm().getContactsInGroup(group);
+    app.contacts().createContact(contact,group);
+    var newRelated = app.hbm().getContactsInGroup(group);
+
+    Comparator<ContactData> compareById = (o1, o2) -> {
+      return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+    };
+    newRelated.sort(compareById);
+    var id = newRelated.get(newRelated.size()-1).id();
+
+    var expectedList = new ArrayList<>(oldRelated);
+        expectedList.add(contact.withId(id).withPhoto(""));
+    expectedList.sort(compareById);
+
+    Assertions.assertEquals(expectedList,newRelated);
 
   }
 
@@ -74,4 +100,6 @@ public class ContactCreationTests extends TestBase{
     int newContactCount = app.contacts().getCount();
     Assertions.assertEquals(contactCount,newContactCount);
   }
+
+
 }

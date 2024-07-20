@@ -3,6 +3,7 @@ package manager;
 import model.ContactData;
 import model.GroupData;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,19 @@ public class ContactHelper extends HelperBase{
     public void createContact(ContactData contact) {
         initContactCreation();
         fillContactForm(contact);
+        submitContactCreation();
+        returnToHomePage();
+    }
+
+    private void selectGroup(GroupData group) {
+       new Select(manager.driver.findElement(By.name("new_group"))).selectByValue(group.id());
+    }
+
+
+    public void createContact(ContactData contact, GroupData group) {
+        initContactCreation();
+        fillContactForm(contact);
+        selectGroup(group);
         submitContactCreation();
         returnToHomePage();
     }
@@ -97,11 +111,11 @@ public class ContactHelper extends HelperBase{
         initContactModification(initialContact);
         fillContactForm(modifiedContact);
         submitContactModification();
-        returnToHomePage();
+        //returnToHomePage();
     }
 
     private void initContactModification(ContactData contact) {
-        click(By.xpath(String.format("//input[@value='%s']/../following-sibling::td[./a][2]" ,contact.id())));
+        click(By.xpath(String.format("//input[@value='%s']/../following-sibling::td[./a][3]" ,contact.id())));
 
     }
 
