@@ -123,4 +123,19 @@ public class ContactHelper extends HelperBase{
         click(By.cssSelector("input:nth-child(74)"));
     }
 
+    public void removeContactFromGroup(ContactData contact, GroupData group) {
+        var dropdown = manager.driver.findElement(By.name("group"));
+        dropdown.findElement(By.xpath("option[. = '"+group.name()+"']")).click();
+        selectContact(contact);
+        click(By.name("remove"));
+    }
+
+    public void addContactToGroup(ContactData contact, GroupData group) {
+
+        selectContact(contact);
+        var dropdown = manager.driver.findElement(By.name("to_group"));
+        dropdown.findElement(By.xpath("option[. = '"+group.name()+"']")).click();
+        click(By.name("add"));
+
+    }
 }

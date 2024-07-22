@@ -1,7 +1,9 @@
 package tests;
 
 import model.ContactData;
+import model.GroupData;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -49,4 +51,31 @@ public class ContactModificationTests extends TestBase{
         expectedList.sort(compareById);
         Assertions.assertEquals(newContacts, expectedList);
     }
+    @Test
+    public void canAddContactToGroup() {
+        if (app.hbm().getGroupCount()==0) {
+            app.hbm().createGroup(new GroupData("", "kate group", "kate group header", "kate group footer"));
+        }
+        var group = app.hbm().getGroupList().get(0);
+
+        if (app.hbm().getContactCount()==0)
+        {
+            app.contacts().createContact(
+                    new ContactData("", "First Name", "Last Name", "Test Address", "email@email.com", "+79161307546", ""));
+        };
+
+        var oldRelated = app.hbm().getContactsInGroup(group);
+
+        var contacts = app.jdbc().getContactsNotInGroup(group);
+        var rnd = new Random();
+        var index = rnd.nextInt(contacts.size());
+        var contact = contacts.get(index);
+        app.contacts().addContactToGroup(contact,group);
+        var newRelated = app.hbm().getContactsInGroup(group);
+
+        Assertions.assertEquals(oldRelated.size()+1,newRelated.size());
+
+    }
+
+
 }
