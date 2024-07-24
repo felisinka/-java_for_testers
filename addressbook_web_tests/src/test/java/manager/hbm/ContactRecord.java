@@ -22,6 +22,12 @@ public class ContactRecord {
     public String email;
     @Column(name = "home")
     public String homePhone;
+    @Column(name = "mobile")
+    public String mobile;
+    @Column(name = "work")
+    public String work;
+    @Column(name = "phone2")
+    public String phone2;
 
 
     public ContactRecord(){

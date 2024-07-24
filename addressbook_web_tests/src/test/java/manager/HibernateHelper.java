@@ -7,10 +7,9 @@ import model.GroupData;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.tool.schema.Action;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HibernateHelper extends HelperBase{
 
@@ -32,11 +31,9 @@ public class HibernateHelper extends HelperBase{
     }
 
    static List<GroupData> convertList (List<GroupRecord> records){
-       List<GroupData> result = new ArrayList<>();
-       for (var record : records){
-           result.add(convert(record));
-            }
-       return result;
+
+        return records.stream().map(HibernateHelper::convert).collect(Collectors.toList());
+
    }
 
     private static GroupData convert(GroupRecord record) {
@@ -72,16 +69,21 @@ public class HibernateHelper extends HelperBase{
     }
 
     static List<ContactData> convertContactList (List<ContactRecord> records){
-        List<ContactData> result = new ArrayList<>();
-        for (var record : records){
-            result.add(convert(record));
-        }
-        return result;
+        return records.stream().map(HibernateHelper::convert).collect(Collectors.toList());
     }
 
 
     private static ContactData convert(ContactRecord record) {
-        return new ContactData("" + record.id, record.firstname, record.lastname, record.address, record.email, record.homePhone, "");
+        return new ContactData()
+                .withId("" + record.id)
+                .withFirstName(record.firstname)
+                .withLastName(record.lastname)
+                .withAddress(record.address)
+                .withEmail(record.email)
+                .withHomePhone(record.homePhone)
+                .withMobile(record.mobile)
+                .withWork(record.work)
+                .withSecondary(record.phone2);
     }
 
     private static ContactRecord convert(ContactData data) {
