@@ -20,6 +20,10 @@ public class ContactRecord {
     public String address;
     @Column(name = "email")
     public String email;
+    @Column(name = "email2")
+    public String email2;
+    @Column(name = "email3")
+    public String email3;
     @Column(name = "home")
     public String homePhone;
     @Column(name = "mobile")

@@ -18,7 +18,7 @@ public class ContactModificationTests extends TestBase{
         var result = new ArrayList<ContactData>();
         result.add(new ContactData("", "first name for modification",
                 "last name for modification", "address for modification", "email for modification",
-                "homePhone for modification", "", "", "", ""));
+                "", "", "homePhone for modification", "", "", "", ""));
 
      /*   for (int i=1;i<5;i++){
             result.add(new ContactData("", randomString(i*10), randomString(i*10), randomString(i*10), randomString(i*10), randomString(i*10)));
@@ -61,7 +61,7 @@ public class ContactModificationTests extends TestBase{
         if (contacts.isEmpty())
         {
             app.contacts().createContact(
-                    new ContactData("", "First Name", "Last Name", "Test Address", "email@email.com", "+79161307546", "", "", "", ""));
+                    new ContactData("", "First Name", "Last Name", "Test Address", "email@email.com", "", "", "+79161307546", "", "", "", ""));
         };
 
         var oldRelated = app.hbm().getContactsInGroup(group);

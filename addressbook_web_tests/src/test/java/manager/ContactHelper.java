@@ -151,10 +151,32 @@ public class ContactHelper extends HelperBase{
         var result = new HashMap<String,String>();
       List<WebElement> rows =  manager.driver.findElements(By.name("entry"));
       for (WebElement row:rows){
-          var id = row.findElement(By.name("input")).getAttribute("id");
+          var id = row.findElement(By.name("selected[]")).getAttribute("id");
           var phones = row.findElements(By.tagName("td")).get(5).getText();
           result.put(id,phones);
       }
       return result;
+    }
+
+    public Map<String,String> getAddress() {
+        var result = new HashMap<String,String>();
+        List<WebElement> rows =  manager.driver.findElements(By.name("entry"));
+        for (WebElement row:rows){
+            var id = row.findElement(By.name("selected[]")).getAttribute("id");
+            var address = row.findElements(By.tagName("td")).get(3).getText();
+            result.put(id,address);
+        }
+        return result;
+    }
+
+    public Map<String,String> getEmails() {
+        var result = new HashMap<String,String>();
+        List<WebElement> rows =  manager.driver.findElements(By.name("entry"));
+        for (WebElement row:rows){
+            var id = row.findElement(By.name("selected[]")).getAttribute("id");
+            var email = row.findElements(By.tagName("td")).get(4).getText();
+            result.put(id,email);
+        }
+        return result;
     }
 }
