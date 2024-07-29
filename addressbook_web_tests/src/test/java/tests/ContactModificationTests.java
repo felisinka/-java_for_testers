@@ -62,8 +62,8 @@ public class ContactModificationTests extends TestBase{
         {
             app.contacts().createContact(
                     new ContactData("", "First Name", "Last Name", "Test Address", "email@email.com", "", "", "+79161307546", "", "", "", ""));
+            contacts = app.jdbc().getContactsNotInGroup(group);
         };
-
         var oldRelated = app.hbm().getContactsInGroup(group);
         var rnd = new Random();
         var index = rnd.nextInt(contacts.size());

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
 public class ContactInfoTests  extends TestBase {
 
 @Test
@@ -31,8 +32,12 @@ public class ContactInfoTests  extends TestBase {
             app.contacts().createContact(new ContactData("", "First Name", "Last Name", "Test Address", "email@email.com", "", "", "+79161307546", "", "", "", ""));
         }
         var contacts = app.hbm().getContactList();
-        var expected = contacts.stream().collect(Collectors.toMap(ContactData::id,
-                ContactData::address));
+        var expected = contacts.stream().collect(Collectors.toMap(ContactData::id, contact->
+                Stream.of(contact.address())
+                        .filter(s -> s != null && !"".equals(s))
+                        .map(s1->s1.replaceAll("\n|\r\n",""))
+                        .collect(Collectors.joining("\n"))
+        ));
         var address = app.contacts().getAddress();
         Assertions.assertEquals(expected, address);
 
