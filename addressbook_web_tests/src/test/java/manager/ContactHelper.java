@@ -163,7 +163,11 @@ public class ContactHelper extends HelperBase{
         List<WebElement> rows =  manager.driver.findElements(By.name("entry"));
         for (WebElement row:rows){
             var id = row.findElement(By.name("selected[]")).getAttribute("id");
-            var address = row.findElements(By.tagName("td")).get(3).getText().replaceAll("\n","");
+            var address = row.findElements(By.tagName("td")).get(3).getText();
+            if (address!= null && !"".equals(address)){
+                address = address.replaceAll("\n","");
+            }
+
             result.put(id,address);
         }
         return result;
