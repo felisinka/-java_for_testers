@@ -1,62 +1,25 @@
-package manager;
+package ru.stqa.mantis.manager;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
+import java.util.Properties;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-
-import java.util.Properties;
-
 public class ApplicationManager {
-    protected WebDriver driver;
-    private LoginHelper session;
-    private GroupHelper groups;
-    private ContactHelper contacts;
-    private JdbcHelper jdbc;
-    private HibernateHelper hbm;
+
+    private WebDriver driver;
+    private String browser;
     private Properties properties;
-
-public LoginHelper session(){
-    if (session == null){
-        session = new LoginHelper(this);
-    }
-    return session;
-}
-
-public GroupHelper groups(){
-    if (groups == null){
-        groups = new GroupHelper(this);
-    }
-    return groups;
-}
-
-public ContactHelper contacts(){
-    if (contacts == null){
-        contacts = new ContactHelper(this);
-    }
-    return contacts;
-}
-
-public JdbcHelper jdbc(){
-    if (jdbc == null){
-        jdbc = new JdbcHelper(this);
-    }
-    return jdbc;
-}
-
-public HibernateHelper hbm(){
-    if (hbm == null){
-        hbm = new HibernateHelper(this);
-    }
-    return hbm;
-}
+    private SessionHelper sessionHelper;
 
     public void init(String browser, Properties properties) {
-    this.properties = properties;
-    if (driver == null) {
+        this.browser = browser;
+        this.properties = properties;
+    }
+
+    public WebDriver driver(){
+        if (driver == null) {
             if ("chrome".equals(browser)) {
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--remote-debugging-port=9222");
@@ -79,17 +42,15 @@ public HibernateHelper hbm(){
             Runtime.getRuntime().addShutdownHook(new Thread(driver::quit));
             //firefox driver works only with url to index.php. otherwise failed with Unable to locate element: *[name='user']
             driver.get(properties.getProperty("web.baseUrl"));
-            session().login(properties.getProperty("web.username"), properties.getProperty("web.password"));
         }
+        return driver;
     }
 
-    protected boolean isElementPresent(By locator) {
-        try {
-            driver.findElement(locator);
-            return true;
-        } catch (NoSuchElementException exception) {
-            return false;
+    public SessionHelper session(){
+        if (sessionHelper == null){
+            sessionHelper = new SessionHelper(this);
         }
+        return sessionHelper;
     }
 
 }
