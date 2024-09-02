@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 public class LoginTests extends TestBase{
     @Test
     void canLogin(){
-        app.http().login("administrator", "root");
+        app.http().login("administrator", "rtoo"); //root
         Assertions.assertTrue(app.http().isLoggedIn());
     }
 }
