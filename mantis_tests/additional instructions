@@ -1,0 +1,19 @@
+./gradlew worked for me. Adding the ./ tells it to look in the current directory since it isn't in the path.
+
+If it stills doesn't work, run (as commented by Fadi)
+
+chmod +x gradlew
+And then try again
+
+Gradlew is a wrapper around gradle. It is bound to a project, not to your workstation. In other words, each gradle project you develop could have a graddle wrapper coming with it. The purpose of gradlew is to make the project portable (i.e. developers don't need to install gradle on their workstation) and reliable (i.e. same version of gradle for everyone). The wrapper script will download the specified version of gradle for your project, then run it. This is all described in their documentation.
+
+What you have done in your case is installing gradle on your workstation, globally. the gradle installation doesn't come with gradlew, as gradlew needs to be added to every gradle project of your choice, as described here. You simply have to run the following command in your project:
+
+gradle wrapper
+This will create the wrapper script for your gradle project. Obviously you need gradle to be installed to run this command (you installed it already), but if you commit the result and share it with other developers, they can use the gradlew script without installing gradle.
+
+In your case, you end up with two possibilities:
+
+run gradle commands in your project, like gradle clean. You can do this because you manually installed gradle globally
+run gradlew commands in your project, like gradlew clean. You can do this because you created the wrapper script with gradle wrapper in the first place.
+Both should give the same result if the gradle version is the same.
