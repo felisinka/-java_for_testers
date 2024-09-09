@@ -6,8 +6,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Properties;
 
 public class ApplicationManager {
@@ -54,25 +58,36 @@ public HibernateHelper hbm(){
     return hbm;
 }
 
-    public void init(String browser, Properties properties) {
+    public void init(String browser, Properties properties) throws MalformedURLException {
     this.properties = properties;
     if (driver == null) {
+        var seleniumServer = properties.getProperty("seleniumServer");
             if ("chrome".equals(browser)) {
-                ChromeOptions options = new ChromeOptions();
-                options.addArguments("--remote-debugging-port=9222");
-                //options.addArguments("start-maximized"); // open Browser in maximized mode
-                //options.addArguments("disable-infobars"); // disabling infobars
-                // options.addArguments("--disable-extensions"); // disabling extensions
-                //options.addArguments("--disable-gpu"); // applicable to windows os only
-                // options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
-                //options.addArguments("--no-sandbox"); // Bypass OS security model
-                driver = new ChromeDriver(options);
+                if (seleniumServer!=null) {
+                    driver = new RemoteWebDriver(new URL(seleniumServer),new ChromeOptions());
+                }
+                else {
+                    ChromeOptions options = new ChromeOptions();
+                    options.addArguments("--remote-debugging-port=9222");
+                    //options.addArguments("start-maximized"); // open Browser in maximized mode
+                    //options.addArguments("disable-infobars"); // disabling infobars
+                    // options.addArguments("--disable-extensions"); // disabling extensions
+                    //options.addArguments("--disable-gpu"); // applicable to windows os only
+                    // options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
+                    //options.addArguments("--no-sandbox"); // Bypass OS security model
+                    driver = new ChromeDriver(options);
+                }
 
             } else if ("firefox".equals(browser))
             {
                 // put gecko driver to the path. it starts selenium, not firefox!
-                System.setProperty("webdriver.gecko.driver", "/usr/bin/geckodriver");
-                driver = new FirefoxDriver();
+                if (seleniumServer!=null) {
+                    driver = new RemoteWebDriver(new URL(seleniumServer),new FirefoxOptions());
+                }
+                else {
+                    System.setProperty("webdriver.gecko.driver", "/usr/bin/geckodriver");
+                    driver = new FirefoxDriver();
+                }
             } else {
                 throw new IllegalArgumentException(String.format("Unknown browser %s", browser));
             }
