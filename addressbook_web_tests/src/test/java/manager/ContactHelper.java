@@ -142,12 +142,7 @@ public class ContactHelper extends HelperBase{
 
     }
 
-    public String getPhones(ContactData contact) {
-       return  manager.driver.findElement(By.xpath(
-                String.format("//input[@id='%s']/../../td[6]",contact.id()))).getText();
-    }
-
-    public Map<String,String> getPhones() {
+     public Map<String,String> getPhonesFromGrid() {
         var result = new HashMap<String,String>();
       List<WebElement> rows =  manager.driver.findElements(By.name("entry"));
       for (WebElement row:rows){
@@ -158,7 +153,7 @@ public class ContactHelper extends HelperBase{
       return result;
     }
 
-    public Map<String,String> getAddress() {
+    public Map<String,String> getAddressFromGrid() {
         var result = new HashMap<String,String>();
         List<WebElement> rows =  manager.driver.findElements(By.name("entry"));
         for (WebElement row:rows){
@@ -173,7 +168,7 @@ public class ContactHelper extends HelperBase{
         return result;
     }
 
-    public Map<String,String> getEmails() {
+    public Map<String,String> getEmailsFromGrid() {
         var result = new HashMap<String,String>();
         List<WebElement> rows =  manager.driver.findElements(By.name("entry"));
         for (WebElement row:rows){
@@ -183,4 +178,20 @@ public class ContactHelper extends HelperBase{
         }
         return result;
     }
-}
+
+    public String getContactPhoneFromGrid(ContactData contact) {
+        return  manager.driver.findElement(By.xpath(
+                String.format("//input[@id='%s']/../../td[6]",contact.id()))).getText();
+    }
+
+    public String getContactAddressFromGrid(ContactData contact) {
+        return  manager.driver.findElement(By.xpath(
+                String.format("//input[@id='%s']/../../td[4]",contact.id()))).getText();
+    }
+
+    public String getContactEmailFromGrid(ContactData contact) {
+        return  manager.driver.findElement(By.xpath(
+                String.format("//input[@id='%s']/../../td[5]",contact.id()))).getText();
+    }
+
+ }
